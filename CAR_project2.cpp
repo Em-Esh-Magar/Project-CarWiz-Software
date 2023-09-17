@@ -1,6 +1,3 @@
-//The Project Begin
-//New updated verion with login
-//HERE is the almost complete code.
 
 #include<stdio.h>
 #include<string.h>
@@ -13,7 +10,7 @@
 struct bill{
 	char name[40];
 	char email[40];
-	char contact[10];
+	char contact[11];
 	char address[30];
 };
 
@@ -29,6 +26,7 @@ void delete_account();
 void employee_option();
 int username_passcode();
 void bill_add(struct bill);
+int logout();
 //function for generating bill body
 void generatebillbody(char [],char [],long int);
 
@@ -140,21 +138,9 @@ void generatebillfooter(long int total)
 	printf("\n");
 	float pay_price;
 	float discount=0.1*total;
+	float vat=0.15*total;
 	float nettotal=total-discount;
-	float gst=0.13*nettotal,grandtotal=nettotal+2*gst;
-	/*printf("Sub Total\t\t\t%.2ld""%",total);
-	printf("\nDiscount @10%s\t\t\t%.2f","%",discount);
-	printf("\n\t\t\t\t---------");
-	printf("\nNet Total\t\t\t%.2f",nettotal);
-	//printf("\nGST @9%s\t\t\t\t%.2f","%",gst);
-	printf("\nSGST @13%s\t\t\t%.2f","%",gst);
-    printf("\n........................................");
-    divider();
-    printf("\nGrand Total\t\t\t%.2f",grandtotal);
-    //printf("\n........................................\n");
-    divider();
-    */
-    //printf("\n @13%s\t\t\t%.2f","%",gst);
+	//printf("\nVAT @15%s\t\t\t\t\t\t\t\t\t\t%.2f%",vat);
     printf("\n\t\t\t\tDashain Offer (Discount)@10%s\t\t\t\t\t\t\t\t(%.2f)","%",discount);
    	printf("\n...........................................................................................................................................................\n");
 
@@ -180,8 +166,8 @@ void generatebillfooter(long int total)
 
 void employee_option()
 {
-	printf("\n\n\n\t\t\t\t\t\t\t\t1. Obtainable Car");
-	printf("\n\t\t\t\t\t\t\t\t2. Modify Version\n\n");
+	printf("\n\n\n\t\t\t\t\t\t\t\t1. Inventory");
+	printf("\n\t\t\t\t\t\t\t\t2. Modify Account\n\n");
 	
 }
 
@@ -189,8 +175,8 @@ int menu()
 {
 	title();
     int c;
-    printf("\n\n\n");
-	printf("\t\t\t*************************************************MAIN MENU*************************************************");
+    printf("\n");
+	printf("\t\t\t*************************************************MAIN MENU*************************************************\n");
     divider();
     printf("\t\t\t\t\t\t\t\t1.SIGNUP\n");
     printf("\t\t\t\t\t\t\t\t2.LOGIN\n");
@@ -240,7 +226,7 @@ void takepassword(char pass[30])
 void bill_add(struct bill hero)
 {
 	FILE *ptr ;
-	ptr=fopen("C:\\Project 1st Sem\\bill add.txt","r+");
+	ptr=fopen("C:\\Project 1st Sem\\bill add.txt","a+");
 	fwrite(&hero, sizeof(struct bill),1,ptr);
 }
 
@@ -318,6 +304,7 @@ void login()
 	
 			int choice=0;				//choice for user to interact as
 			printf("\n\n\t\t\t\t\t\t\tPress 1 as Customer and 2 as Employee \n\n\t\t\t\t\t\t\t\tYour are interacting as: ");
+			fflush(stdin);
 			scanf("%d",&choice);
 	
 			FILE *detail;				// made to open a file pointer which contain available car company
@@ -1590,15 +1577,15 @@ void login()
    								 		{
    								 				strcpy(car_company_model,"MAHINDRA Model SCORPIO");
    								 				Model_Scorpio:
-   								 				printf("\nWhich Variant you want to buy?");
-   								 				printf("\nPress 1 as Variant S52WD and 2 as Variant S54WD.");
+   								 				printf("\n\t\t\t\t\tWhich Variant you want to buy?");
+   								 				printf("\n\t\t\t\t\tPress 1 as Variant S52WD and 2 as Variant S54WD.");
    		
    								 				printf("\nVariant: ");
    								 				scanf("%d",&i);
    								 				if(i==1){
 												
    								 					Model_SCORPIO:
-   								 					printf("\nEnter a car color you want: ");
+   								 					printf("\n\t\t\t\t\tEnter a car color you want: ");
    								 					fflush(stdin);
    								 					gets(car_model_color);
    								 					strupr(car_model_color);
@@ -1612,7 +1599,7 @@ void login()
    								 					}
    								 					else
    								 					{
-   								 						printf("\nYou entered worng choice in color please. Try Again.");
+   								 						printf("\n\t\t\t\t\tYou entered worng choice in color please. Try Again.");
 														getch();
 														goto Model_SCORPIO;	
 													}
@@ -1620,7 +1607,7 @@ void login()
 												else if(i==2)
 												{
 														Model_SCORPIO1:
-   								 					printf("\nEnter a car color you want: ");
+   								 					printf("\n\t\t\t\t\tEnter a car color you want: ");
    								 					fflush(stdin);
    								 					gets(car_model_color);
    								 					strupr(car_model_color);
@@ -1634,7 +1621,7 @@ void login()
    								 					}
    								 					else
    								 					{
-   								 						printf("\nYou entered worng choice in color please. Try Again.");
+   								 						printf("\n\t\t\t\t\tYou entered worng choice in color please. Try Again.");
 														getch();
 														goto Model_SCORPIO1;	
 													}
@@ -1962,18 +1949,24 @@ void login()
 						{
 							int o=0;
 							char z;
-							show=fopen("C:\\Project 1st Sem\\bill add.txt","r");
+							title();
+							show=fopen("C:\\Project 1st Sem\\bill add.txt","r+");
 							if(show==NULL)
 							{
 								printf("\n\t\t\t\t\tFile doesn't exit");
 							}
-							while(fread(&showbill, sizeof(showbill),1,show)==1)
+							//rewind(show);
+							while(fread(&showbill, sizeof(struct bill),1,show)==1)
 							{
 								printf("\n\n\t\t\t\t\t\t\t\tBill no. %d",o+1);
 								printf("\n\t\t\t\t\t\t\t\tName       : %s",showbill.name);
-								printf("\n\t\t\t\t\t\t\t\tAddress    : %s",showbill.address);
+								//fflush(stdout);
 								printf("\n\t\t\t\t\t\t\t\tContact no : %s",showbill.contact);
+								//fflush(stdout);
+								printf("\n\t\t\t\t\t\t\t\tAddress    : %s",showbill.address);
+								//fflush(stdout);
 								printf("\n\t\t\t\t\t\t\t\tEmail      : %s",showbill.email);
+								//fflush(stdout);
 								o++;
 								printf("\n\n");
 							}
@@ -1997,6 +1990,21 @@ void login()
 						{
 							goto flag;
 						}
+						case 5:
+						{
+							int z;
+							z=logout();
+							if(z==1)
+							{
+								printf("\n\n\n\t\t\t\t\t\t\tLOGOUT SUCCESSFULLY");
+								divider();
+								exit(0);
+							}
+							else
+							{
+								goto flag;
+							}
+						}
 						break;
 						default:
 						{
@@ -2012,7 +2020,7 @@ void login()
 					getch();
 					printf("\n\t\t\t\t\t\t\t Please try again.");
 					getch();
-					printf("\n \t\t\t\t\t\t\tPress 1 as customer and 2 as employee. ");
+					//printf("\n \t\t\t\t\t\t\tPress 1 as customer and 2 as employee. ");
 					getch();
 					goto flag;
 				}
@@ -2186,13 +2194,13 @@ void change_password()
         	if (strcmp(again_passcode,test_passcode)==0)
         	{
         		strcpy(change.pass1,again_passcode);
-            	printf("*****************************PASSWORD CHANGE SUCCESSFULLY*****************************");
+            	printf("\n\n\n\t\t\t*****************************PASSWORD CHANGE SUCCESSFULLY*****************************");
             	copy_change = change;
             	fp = fopen("account.txt", "w+");
             	
             	fwrite(&change,sizeof(struct account),1,fp);
             	//rename()
-            	printf("\n\t\t\t\t\t\t\tYou Have to restart again. This program.\n\n\t\t\t\t Enter any key to close this program.");
+            	printf("\n\n\n\t\t\t\t\t\t\tYou Have to restart again. This program.\n\n\t\t\t\t\t\t Enter any key to close this program.");
             	getch();
             	exit(0);
         	}
@@ -2236,6 +2244,7 @@ void delete_account()
         fprintf(fp, " ");
         printf("\n\t\t\t\t\t\t\tACCOUNT DELETED SUCCESSFULLY\n");
         getch();
+        exit(0);
     }
 
     else if (ch == 'N' || ch == 'n')
@@ -2297,6 +2306,24 @@ int username_passcode()
             	exit(0);
 			}
 		goto emp_login;
+	}
+}
+
+int logout()
+{
+	char log;
+	title();
+	printf("\n\n\t\t\t\t\t\t\tAre you sure want to logout.");
+	printf("\n\n\t\t\t\t\t\t\tPress Y to logout or else to cancel : ");
+	fflush(stdin);
+	scanf("%c",&log);
+	if(log=='y' || log=='Y')
+	{
+		return 1;
+	}
+	else
+	{
+		return 2;
 	}
 }
 
